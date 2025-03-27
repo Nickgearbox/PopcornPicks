@@ -1,0 +1,192 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&family=Josefin+Sans:wght@100..700&family=Winky+Sans:wght@300..900&display=swap" rel="stylesheet">
+    
+    <title>Movie Search</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        .faculty-glyphic-regular {
+            font-family: "Faculty Glyphic", sans-serif !important;
+            font-weight: 400 !important;
+            font-style: normal !important;
+        }
+        body {
+            background-image: url('{% static "img/batman.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-top: 80px;
+        }
+        
+        .navbar {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            flex-wrap: wrap;
+        }
+        .navbar .logo img {
+            width: 70px;
+            height: auto;
+        }
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #feb47b;
+        }
+        .content {
+            max-width: 90%;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+        }
+        .card {
+            background: white;
+            color: black;
+            width: 100%;
+            max-width: 250px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.5);
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: orange;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #feb47b;
+        }
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            .content {
+                width: 90%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <div class="logo">
+                <img src="{% static 'img/logoo.png' %}" alt="Logo"> 
+            </div>
+            <!-- Hamburger Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="nav-links navbar-nav ms-auto">
+                    <a class="nav-item nav-link" href="{% url 'user_dashboard' group.id %}">Home</a>
+                    <a class="nav-item nav-link" href="{% url 'show_results' group.id %}">Results</a>
+                    <a class="nav-item nav-link" href="{% url 'search_movies' group.id %}">Recommendation</a>
+                    <a class="nav-item nav-link" href="{% url 'watch_movie' group.id %}">Watch</a>
+                    <a class="nav-item nav-link" href="{% url 'group_login'  %}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    
+    
+    <div class="content">
+        <h2 class="mb-4">Search for Movies</h2>
+        <form method="get">
+            <div class="mb-3">
+                <label>Category</label>
+                <select name="category" class="form-control">
+                    <option value="">Select Category</option>
+                    <option value="Action">Action</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Horror">Horror</option>
+                    <option value="Sci-Fi">Sci-Fi</option>
+                    <option value="Thriller">Thriller</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Minimum IMDB Rating</label>
+                <input type="number" step="0.1" name="rating" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label>Year</label>
+                <input type="number" name="year" class="form-control">
+            </div>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    {% if movies %}
+        <h3>Results:</h3>
+        <div class="row">
+            {% for movie in movies %}
+            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div class="card">
+                    <img src="{{ movie.Poster }}" class="card-img-top" alt="{{ movie.Title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ movie.Title }}</h5>
+                        <p class="card-text">Rating: {{ movie.imdbRating }}</p>
+                        <p class="card-text">Year: {{ movie.Year }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+</html>

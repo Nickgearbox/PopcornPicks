@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    
+    <title>Admin Dashboard</title>
+    <style>
+        .faculty-glyphic-regular {
+            font-family: "Faculty Glyphic", sans-serif !important;
+            font-weight: 400 !important;
+            font-style: normal !important;
+        }
+        body {
+            background-image: url('{% static "img/adminn.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .dashboard-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+            background: transparent;
+            padding: 20px;
+            border-radius: 10px;
+            justify-content: center;
+        }
+
+        .form-container, .poll-list-container {
+            flex: 1 1 100%;
+            max-width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        h2, h3, h4 {
+            color: #fff;
+        }
+
+        input {
+            width: 90%;
+            max-width: 300px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid gray;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 50%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: orangered;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            border: 1px solid orangered;
+            border-radius: 5px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: orange;
+        }
+
+        .poll-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .poll-item {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .poll-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .poll-item img {
+            width: 100%;
+            max-width: 90px;
+            height: auto;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: orangered;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: orange;
+        }
+        
+        @media (min-width: 768px) {
+            .dashboard-container {
+                flex-wrap: nowrap;
+            }
+            .form-container, .poll-list-container {
+                flex: 1;
+                max-width: 45%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Admin Dashboard</h2>
+        <h3>Group: {{ group.name }}</h3>
+    </div>
+    
+    <div class="dashboard-container">
+        <div class="form-container">
+            <h4>Create a Poll</h4>
+            <form method="post">
+                {% csrf_token %}
+                <input type="text" name="movie_name" placeholder="Enter Movie Name" required>
+                <button type="submit">Add Poll</button>
+            </form>
+        </div>
+
+        <div class="poll-list-container">
+            <h4>Poll List</h4>
+            <div class="poll-grid">
+                {% for poll in polls %}
+                    <div class="poll-item">
+                        <strong>{{ poll.movie_name }}</strong> - {{ poll.votes }} votes
+                        {% if poll.movie_image %}
+                            <br>
+                            <img src="{{ poll.movie_image }}" alt="{{ poll.movie_name }}">
+                        {% endif %}
+                        {% if poll.movie_trailer %}
+                            <br>
+                            <iframe width="100%" height="150" src="{{ poll.movie_trailer }}" frameborder="0" allowfullscreen></iframe>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <p>No polls created yet.</p>
+                {% endfor %}
+            </div>
+            
+            <a href="{% url 'home' %}">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

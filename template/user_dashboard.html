@@ -1,0 +1,296 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    
+    <title>Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .faculty-glyphic-regular {
+            font-family: "Faculty Glyphic", sans-serif !important;
+            font-weight: 400 !important;
+            font-style: normal !important;
+          }
+
+        body {
+            background-image: url('{% static "img/thor.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 130vh;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .navbar {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .logo img {
+            width: 90px;
+            height: auto;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #feb47b;
+            text-decoration: underline;
+        }
+        .menu-icon {
+            display: none;
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                text-align: center;
+                padding: 15px 0;
+            }
+            .nav-links a {
+                display: block;
+                padding: 10px;
+            }
+            .menu-icon {
+                display: block;
+            }}
+        h2{
+            margin-top: 80px !important;
+        }
+
+        h2, h3 {
+            text-align: center;
+            font-size: 22px;
+            margin: 20px 0;
+        }
+
+        /* Polls section */
+        .poll-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .poll {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 200px;
+            transition: transform 0.3s ease-in-out, background 0.3s;
+        }
+
+        .poll:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .poll img {
+            width: 150px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .poll img:hover {
+            transform: scale(1.1);
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #feb47b, #ff7e5f);
+            transform: scale(1.1);
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #ff7e5f;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s ease-in-out;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #feb47b;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: transparent;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            max-width: 90%;
+            width: 560px;
+        }
+
+        .close {
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            color: white;
+        }
+
+        iframe {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 100%;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{% static 'img/logoo.png' %}" alt="Logo">
+        </div>
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <div class="nav-links" id="navLinks">
+            <a href="{% url 'user_dashboard' group.id %}">Home</a>
+            <a href="{% url 'show_results' group.id %}">Results</a>
+            <a href="{% url 'search_movies' group.id %}">Recommendation</a>
+            <a href="{% url 'watch_movie' group.id %}">Watch</a>
+            <a href="{% url 'group_login'  %}">Logout</a>
+        </div>
+    </nav>
+
+   
+    <h2>Welcome to {{ group.name }} {{ user.username }}</h2>
+    <h3>Vote for your favorite movie:</h3>
+    {% if not has_voted %}
+        
+        <div class="poll-container">
+            {% for poll in polls %}
+                <div class="poll">
+                    <strong>{{ poll.movie_name }}</strong>
+                    {% if poll.movie_image %}
+                        <br>
+                        <img src="{{ poll.movie_image }}" alt="{{ poll.movie_name }}">
+                    {% endif %}
+                    <form method="post" action="{% url 'vote' poll.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Vote</button>
+                    </form>
+                    {% if poll.movie_trailer %}
+                        <br>
+                        <button onclick="showTrailer('{{ poll.movie_trailer }}')">Watch Trailer</button>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>No polls available yet.</p>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>You have already voted.Go to results page</p>
+    {% endif %}
+
+        <!-- Trailer Modal -->
+        <div id="trailerModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeTrailer()">&times;</span>
+                <iframe id="trailerFrame" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <script>
+            function showTrailer(url) {
+                document.getElementById("trailerModal").style.display = "flex";
+                document.getElementById("trailerFrame").src = url + "?autoplay=1";
+            }
+    
+            function closeTrailer() {
+                document.getElementById("trailerModal").style.display = "none";
+                document.getElementById("trailerFrame").src = "";
+            }
+        </script>
+    <script>
+        function toggleMenu() {
+            var nav = document.getElementById("navLinks");
+            if (nav.style.display === "flex") {
+                nav.style.display = "none";
+            } else {
+                nav.style.display = "flex";
+            }
+        }
+    </script>
+
+</body>
+</html>

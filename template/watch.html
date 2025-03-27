@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <title>Movie Search</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-image: url('{% static "img/clean.webp" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 150vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+        
+        .navbar {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo img {
+            width: 90px;
+            height: auto;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+        
+        .nav-links a:hover {
+            color: #feb47b;
+            text-decoration: underline;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: orange;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #feb47b;
+        }
+        
+        .hamburger {
+            display: none;
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(12px);
+                position: absolute;
+                top: 60px;
+                right: 0;
+                width: 200px;
+                padding: 15px;
+                text-align: right;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            }
+            
+            .nav-links.show {
+                display: flex;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+        }
+        
+        .search-container {
+            margin-top: 100px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            max-width: 500px;
+            width: 90%;
+        }
+
+
+        input[type="text"] {
+            width: 100%;  /* Default: Full width */
+            max-width: 300px; /* Maximum width */
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid orange;
+            border-radius: 5px;
+            box-sizing: border-box; /* Prevents padding from affecting width */
+        }
+        
+        /* Adjust for smaller screens */
+        @media (max-width: 600px) {
+            input[type="text"] {
+                max-width: 100%; /* Full width for smaller screens */
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{% static 'img/logoo.png' %}" alt="Logo"> 
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
+        <div class="nav-links" id="nav-links">
+            <a href="{% url 'user_dashboard' group.id %}">Home</a>
+            <a href="{% url 'show_results' group.id %}">Results</a>
+            <a href="{% url 'search_movies' group.id %}">Recommendation</a>
+            <a href="{% url 'watch_movie' group.id %}">Watch</a>
+            <a href="{% url 'group_login' %}">Logout</a>
+        </div>
+    </nav>
+    
+    <div class="search-container">
+        <h1>Find Your Favorite Movie</h1>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="query" placeholder="Enter movie name..." required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    
+    <script>
+        function toggleMenu() {
+            document.getElementById("nav-links").classList.toggle("show");
+        }
+    </script>
+</body>
+</html>

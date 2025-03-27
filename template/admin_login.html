@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    
+    <title>Admin Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .faculty-glyphic-regular {
+            font-family: "Faculty Glyphic", sans-serif !important;
+            font-weight: 400 !important;
+            font-style: normal !important;
+          }
+
+        /* Background styling */
+        body {
+            background-image: url('{% static "img/one.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Form container */
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            position: relative;
+        }
+
+        /* Heading */
+        h2 {
+            color: white;
+            font-size: clamp(20px, 4vw, 28px);
+            margin-bottom: 15px;
+        }
+
+        /* Transparent input fields */
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-bottom: 2px solid white;
+            background: transparent;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: border-bottom 0.3s ease-in-out;
+        }
+
+        input:focus {
+            border-bottom: 2px solid orangered;
+        }
+
+        /* Button styling */
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: orangered;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: darkorange;
+        }
+
+        /* Error message */
+        .error {
+            color: yellow;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        /* Link styling */
+        p {
+            margin-top: 10px;
+            font-size: 14px;
+            color: white;
+        }
+
+        a {
+            color: orangered;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: orange;
+        }
+
+        /* Close (X) button */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .close-btn:hover {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Admin Login</h2>
+        
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <form method="post" autocomplete="off">
+            {% csrf_token %}
+            <input type="text" name="group_name" placeholder="Group Name" autocomplete="off" required>
+            <input type="password" name="group_password" placeholder="Group Password" autocomplete="new-password" required>
+            <button type="submit">Login</button>
+        </form>
+
+        <a href="{% url 'home' %}" class="close-btn">X</a>
+        <p>Don't have a Group? <a href="{% url 'create_group' %}">Create one</a></p>
+    </div>
+   
+</body>
+</html>

@@ -1,0 +1,84 @@
+/* *{
+    background-color: whitesmoke;
+} */
+
+/* login and sign_in page style */
+.header{
+    text-align: center;
+    text-decoration: underline;
+}
+.logo{
+    margin-left: 70px;
+}
+.logo img{
+    position: absolute;
+    width:500px ;
+    height: 500px;
+    
+}
+
+
+
+/* login form */
+.form{
+    margin-left: 800px;
+    margin-top: 70px;
+}
+.form form input{
+    border-radius: 5px;
+}
+/* login btn */
+.form button{
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+/* Dashboard style */
+.dlogo img{
+    margin-top: 5px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+}
+
+
+.navbar{
+    background: rgb(74, 195, 248);
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.navdiv{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+ li{
+    list-style: none;
+    display: inline-block;
+}
+li a{
+    color: white;
+    margin-right: 25px;
+    text-decoration:  none;
+}
+
+.intro{
+
+    text-align: center;
+}
+.create_poll button{
+    background-color: white;
+    border-radius: 10px;
+}
+.create_poll button:hover{
+    background-color: rgb(74, 195, 248);
+    color: white;
+
+}
+.poll{
+    position: relative;
+    margin-top: 100px;
+    margin-left: 550px;
+}
+
