@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-skn#g(h3-j&555fks@qdta0f7e#e2w0!72c6ba##)@*0$2hk5y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['onepiece-4hpv.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
